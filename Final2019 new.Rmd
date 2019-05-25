@@ -1,0 +1,305 @@
+---
+title: "AIDS DRUGS"
+author: Rita Bowden
+date: 05/25/2019
+output: html_document
+---
+
+```{r include=FALSE,echo=FALSE}
+require(tidyverse)
+require(tigerstats)
+avast <-read.csv(file="avastivironal.csv",header=TRUE)
+avastM = filter(avast, sex=='M')
+avastF = filter(avast, sex=='F')
+avastLBGT = filter(avast, LBGT=='yes')
+avastIV = filter(avast, Ivdrug == 'user')
+```
+
+
+# Introduction General Population
+
+<!--In this section you explain what you are trying to show.  Where did the data come from?  What is the research or other question you are trying to answer?.  If you skimp in this section expect to be marked down in your grade. Paint a picture of the project a couple of paragraphs is expected!-->
+
+ The data is from 2019 Final project AVAST forked from Github
+ We are trying to show if the vaccine is effective or shows any effect in the whole population  
+ 
+Research Question:  
+
+$H_O:$ Preventative AIDS drug Abacavirinol is not effective in the general population 
+
+$H_A:$ Preventative AIDS drug Abacavirinol is effective in the general population  
+
+A new  preventative aides (abacavirinol) is under test in clinical trials. Analyze the effectiveness of this drug across the board. Consider population subgroups by gender, drug use, and sexual orientation. Finish this!
+
+
+# Methods
+
+<!--Decide on your methods:  use "variable analysis" or other appropriate descriptors.  Make sure to choose at least one graphical method and at least one numerical method. Discuss what data manipulations may be needed for example subsetting or other binning procedures and what sort of graphical displays and inferential tools will be used!-->
+
+Methods used are categorical variables, and a chi-squared test to test the hypothesis that the AIDS drug abacavirinol is effective in treating people that contracted AIDS
+
+#Results
+
+<!--Divide this section into two sub-sections:  One for your descriptive  results and one for your inferential results.!-->
+
+## Descriptive Results
+
+### Graphical Descriptive Results
+
+<!--Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question. Bottom line is to explain the features of the graph that are relevant to conforming or departing to what is expected by your null hypothesis !-->
+
+We use a barchart to show the AIDS treatment using the placebo versus the drug
+```{r}
+barchartGC(~infected+treatment, data=avast, type='percent')
+```
+  
+This barchart shows a significant difference between the population that took the preventative AIDS drug and those that took the placebo, more of the population the took the placebo contracted AIDS
+
+### Numerical Descriptive Results
+
+<!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
+
+Numerical summary is a cross tabulation:
+
+```{r}
+xtabs(~infected+treatment, data=avast)
+```
+
+This Table shows a lower incidence of contracting the AIDs when they took the drug than when they took the placebo
+
+## Inferential Results
+
+<!--State hypothesis clearly.  Make sure your discussion of the inferential test covers all the aspects that the test output produces, such as test statistic, p-value etc.  Make a decision about the null hypothesis, explain the assumptions on which the selected test/procedure was based, and why the chosen procedure satisfys the assumptions and is appropriate to answer the research question!-->
+
+```{r}
+chisqtestGC (xtabs(~infected+treatment, data=avast))
+```
+From the Chi-square test of independence, The P value is O, (P<0.05) so we reject the null hypothesis. The hypothesis is that the AIDS drug Abacavirinol is effective in preventing AIDS in the general population based on the results of the chi-squared test of independence 
+
+# Discussion and Conclusion
+
+<!--Discussion and conclusion here.  If you found a relationship be sure to consider whether the relationship occurs because one of the variavbles causes the other, or whether they perhasps are related for some other reason.  Watch the chapter 6 videos from the GeorgeTown videos collection.!-->
+
+The hypothesis is that the AIDS drug Abacavirinol is effective in preventing AIDS in the general population based on the results of the chi-squared test of independence  
+
+We reject the Null Hypothesis since (P<0.05) P=0, so we have enough evidence to reject the null hyposthesis and accept the alternative that The AIDS drug is effective in preventing AIDS in the general population. 
+
+The AIDS drug is effective in the general population, if a person took the Preventative drug abacavirinol, the person is less likely to be infected than if they took the placebo.
+
+# Second question: is there a relationship between vaccine effectiveness sex = Female?
+  Research Question
+  
+  $H_O:$ Effectiveness of AIDS drug Abacavirinol and being female are unrelated
+
+$H_A:$ Effectiveness of AIDS drug Abacavirinol and being female are related
+
+
+# Methods
+
+Methods used are categorical variables, and a chi-squared test to test the hypothesis that the AIDS drug abacavirinol's effectiveness and gender are unrelated in treating people that contracted AIDS
+
+# Results
+
+## Descriptive Results
+
+### Graphical Descriptive Results
+
+We use a barchart to show the trends  between the AIDS drug effectiveness and the sex=female of the person
+```{r}
+barchartGC(~infected + treatment, data=avastF, type='percent')
+```
+
+
+This barchart shows significant difference in the female population that took the drug versus the female population that took placebo
+
+### Numerical Descriptive Results
+
+<!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
+
+Numerical summary is a cross tabulation:
+
+```{r}
+xtabs(~infected + treatment, data=avastF)
+```
+
+This table shows significant difference on the effect of the drug on the sex of the subject, The table showed an increase in AIDS incidence in the number of females taking the drug 
+
+
+## Inferential results
+
+```{r}
+chisqtestGC (xtabs(~infected+treatment, data=avastF))
+```
+
+The P Value is 1e-04 which is less than 0.05, so we reject the null hypothesis based on the results of the chi-squared test of independence
+
+# Discussion and Conclusion
+
+The hypothesis was  that the effectiveness of the AIDS drug and the being female is related,based on the results of the chi-squared test of independence, 
+
+
+We reject the Null hypothesis P<0.05, the p-value was 1e-04, so we have enough evidence to reject the null hyposthesis
+
+There is a relationship between the  effectiveness of the AIDS drug Abacavirinol and being female, if a female took the drug it increased her chances of contracting AIDS
+
+# Second question: is there a relationship between vaccine effectiveness sex = Male?
+  Research Question
+  
+  $H_O:$ Effectiveness of AIDS drug Abacavirinol and being male are unrelated
+
+$H_A:$ Effectiveness of AIDS drug Abacavirinol and being male are related
+
+
+# Methods
+
+Methods used are categorical variables, and a chi-squared test to test the hypothesis that the AIDS drug abacavirinol's effectiveness and being male are unrelated in treating people that contracted AIDS
+
+# Results
+
+## Descriptive Results
+
+### Graphical Descriptive Results
+
+We use a barchart to show the trends  between the AIDS drug effectiveness and BEING MALE
+```{r}
+barchartGC(~infected + treatment, data=avastM, type='percent')
+```
+
+This barchart shows significant difference in the male population that took the drug versus the male population that took the placebo, it was less likely to get infected if a male took the drug than if you took the placebo
+
+### Numerical Descriptive Results
+
+<!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
+
+Numerical summary is a cross tabulation:
+
+```{r}
+xtabs(~infected + treatment, data=avastM)
+```
+
+This table shows significant difference on the effect of the drug on the sex of the subject, it shows a male subject was less likely to contract AIDs if they took the drug
+
+## Inferential results
+
+```{r}
+chisqtestGC (xtabs(~infected+treatment, data=avastM))
+```
+
+The P Value is 0 which is less than 0.05, so we reject the null hypothesis based on the results of the chi-squared test of independence
+
+# Discussion and Conclusion
+
+The hypothesis was  that the effectiveness of the AIDS drug and being male are related since there was less incidence of contracting AIDs if the subject took the drug based on the results of the chi-squared test of independence, 
+
+
+We reject the Null hypothesis P<0.05, the p-value was 0, so we have enough evidence to reject the null hyposthesis
+It shows that taking the drug decreases your chances of getting AIDS if male
+
+
+# Introduction
+
+Research Question: 
+
+$H_0:$Effectiveness of AIDS drug Abacavirinol and IV drug abuse are unrelated
+
+$H_A:$Effectiveness of AIDS drug Abacavirinol and IV drug abuse are related
+
+# Methods
+
+Methods used are categorical variables, and a chi-squared test to test the hypothesis that the AIDS drug abacavirinol is effective in treating IVDrug abusers
+
+#Results
+
+<!--Divide this section into two sub-sections:  One for your descriptive  results and one for your inferential results.!-->
+
+## Descriptive Results
+
+### Graphical Descriptive Results
+
+We use a barchart to show the trends  between the AIDS drug effectiveness and IV Drug Abuser
+```{r}
+barchartGC(~infected+treatment, data=avastIV, type='percent')
+
+```
+
+This barchart shows evidence of a significant difference in effectiveness of the drug if the subject was an IVdrug user or not,it showed an increase in the number of IVdrug users that took the drug than the placebo
+
+Numerical summary is a cross tabulation:
+```{r}
+xtabs(~infected+treatment, data=avastIV)
+```
+
+This table shows a significant difference on an  Iv drug user that took the drug versus an IV drug user that took the placebo.It had a negative effect, 
+
+## Inferential Results
+
+
+```{r}
+chisqtestGC (xtabs(~infected+treatment, data=avastIV))
+```
+
+The P value was less than 0.05, P=0, so we reject the Null hypothesis
+
+#Discussion and Conclusion
+
+The hypothesis was  that the effectiveness of the AIDS drug and being an IV drug abuser are related based on the results of the chi-squared test of independence, 
+
+
+We reject the hypothesis P<0.05, the p-value was 0, so we have enough evidence to reject the null hyposthesis
+
+The effectiveness of the AIDS drug Abacavirinol and on an IV Drug abuser are related, a relationship exist
+
+
+# Introduction
+
+Research Question: 
+
+$H_0:$Effectiveness of AIDS drug Abacavirinol and being LGBT are unrelated
+
+$H_A:$Effectiveness of AIDS drug Abacavirinol and  being LGBT are related
+
+# Methods
+
+Methods used are categorical variables, and a chi-squared test to test the hypothesis that the AIDS drug abacavirinol is effective in treating LBGT
+
+#Results
+
+<!--Divide this section into two sub-sections:  One for your descriptive  results and one for your inferential results.!-->
+
+## Descriptive Results
+
+### Graphical Descriptive Results
+
+We use a barchart to show the trends  between the AIDS drug effectiveness and being LGBT
+```{r}
+barchartGC(~infected + treatment, data=avastLBGT, type='percent')
+
+```
+  
+  This barchart shows a positive effect, LGBT people that took the drug were less likely to contract AIDS
+Numerical summary is a cross tabulation:
+```{r}
+xtabs(~infected+treatment, data=avastLBGT)
+```
+
+The table shows a significant decrease in the LBGT that took the drug versus those that took the placebo
+
+## Inferential Results
+
+
+
+```{r}
+chisqtestGC (xtabs(~infected+treatment, data=avastLBGT))
+```
+
+we reject the Null hypothesis since P<0.05,P= 0 the hypothesis is that the effectiveness of the drug and being LBGT are related based on the results of the chi-squared test of independence
+
+#Discussion and Conclusion
+
+The hypothesis is that the effectiveness of the AIDS drug and being LGBT are related  based on the results of the chi-squared test of independence, 
+
+
+We reject the Null hypothesis P<0.05, the p-value was 0, so we have enough evidence to reject the null hyposthesis
+
+There was a significant decrease in the number of people that contracted AIDs when taking placebo so you were less likely to contract AIDS on the drug than on the placebo, so a relationship exists between the effectiveness of the drug and being LGBT.
+
